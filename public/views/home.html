@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Theme Made By www.w3schools.com - No Copyright -->
+    <title>Beam Stream</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link href="/static/css/css.css" rel="stylesheet">
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            font: 20px Montserrat, sans-serif;
+            line-height: 1.8;
+            color: #f5f6f7;
+        }
+        p {font-size: 16px;}
+        .margin {margin-bottom: 45px;}
+        .bg-1 {
+            background-color: #1abc9c; /* Green */
+            color: #ffffff;
+        }
+        .bg-2 {
+            background-color: #474e5d; /* Dark Blue */
+            color: #ffffff;
+        }
+        .bg-3 {
+            background-color: #ffffff; /* White */
+            color: #555555;
+        }
+        .bg-4 {
+            background-color: #2f2f2f; /* Black Gray */
+            color: #fff;
+        }
+        .container-fluid {
+            padding-top: 70px;
+            padding-bottom: 70px;
+        }
+        .navbar {
+            padding-top: 15px;
+            padding-bottom: 15px;
+            border: 0;
+            border-radius: 0;
+            margin-bottom: 0;
+            font-size: 12px;
+            letter-spacing: 5px;
+        }
+        .navbar-nav  li a:hover {
+            color: #1abc9c !important;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/home">Beam Stream</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/home">HOME</a></li>
+                <li><a href="/admin">ADMIN</a></li>
+                <li><a href="/about">ABOUT</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- First Container -->
+<div class="container-fluid bg-1 text-center">
+    <h3 class="margin">What Is Beam Stream ?</h3>
+    <h3>Beam Stream is a simple Node based video streaming App</h3>
+</div>
+
+<!-- Second Container -->
+<div class="container-fluid bg-2 text-center">
+    <h3 class="margin">For Whom?</h3>
+    <p>It is for everybody who is passionate about building simple interactive video streaming Apps</p>
+    <p>Browse our video gallery here </p>
+    <a href="/dashboard" class="btn btn-default btn-lg">
+        <span  class="glyphicon glyphicon-search"></span> Gallery
+    </a>
+</div>
+
+<!-- Third Container (Grid) -->
+<div class="container-fluid bg-3 text-center">
+    <h3 class="margin">Where you can find it?</h3><br>
+    <div class="row">
+        <div class="col-sm-4">
+            <p>Beam Stream came into existence only because of the second ever Hackathon conducted in Bhubaneswar by <a target="_blank" href="https://www.muvi.com/muvi-conducts-a-12-hour-non-stop-hackathon-in-bhubaneswar.html">Muvi</a> </p>
+        </div>
+        <div class="col-sm-4">
+            <p>Beam Stream's backbone is Node and Express.js.You will get to know the basics of
+            building an express app along with exposure to some cool node modules around. Are you excited to get started!</p>
+        </div>
+        <div class="col-sm-4">
+            <p>Holla!  This repository is going to be available on git hub soon. Please visit here <a target="_blank" href="https://github.com/ansuman273">Beam Stream</a></p>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="container-fluid bg-4 text-center">
+    <p>&copy; 2017 [Beam Stream]</p>
+</footer>
+
+</body>
+</html>

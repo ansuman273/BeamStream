@@ -1,0 +1,28 @@
+{
+  "name": "SimpleVideoStream",
+  "version": "1.0.0",
+  "description": "A video upload and stream app",
+  "main": "html5-video-streamer.js",
+  "scripts": {
+    "test": "mocha test",
+    "start": "nodemon Server.js"
+  },
+  "keywords": [
+    "video",
+    "stream"
+  ],
+  "author": "ansuman273",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.1.4",
+    "express": "4.13.3",
+    "multer": "1.1.0",
+    "nodemon": "^1.11.0",
+    "walk": "^2.3.9"
+  },
+  "devDependencies": {
+    "should": "~7.1.0",
+    "mocha": "~2.3.3",
+    "supertest": "~1.1.0"
+  }
+}

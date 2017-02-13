@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Theme Made By www.w3schools.com - No Copyright -->
+    <title>Beam Stream</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link href="/static/css/css.css" rel="stylesheet">
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            font: 20px Montserrat, sans-serif;
+            line-height: 1.8;
+            color: #f5f6f7;
+        }
+        p {font-size: 16px;}
+        .margin {margin-bottom: 45px;}
+        .bg-1 {
+            background-color: #1abc9c; /* Green */
+            color: #ffffff;
+        }
+        .bg-2 {
+            background-color: #474e5d; /* Dark Blue */
+            color: #ffffff;
+        }
+        .bg-3 {
+            background-color: #ffffff; /* White */
+            color: #555555;
+        }
+        .bg-4 {
+            background-color: #2f2f2f; /* Black Gray */
+            color: #fff;
+        }
+        .container-fluid {
+            padding-top: 70px;
+            padding-bottom: 70px;
+        }
+        .navbar {
+            padding-top: 15px;
+            padding-bottom: 15px;
+            border: 0;
+            border-radius: 0;
+            margin-bottom: 0;
+            font-size: 12px;
+            letter-spacing: 5px;
+        }
+        .navbar-nav  li a:hover {
+            color: #1abc9c !important;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/home">Beam Stream</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/home">HOME</a></li>
+                <li><a href="/admin">ADMIN</a></li>
+                <li><a href="/about">ABOUT</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Only Container -->
+<div class="container-fluid bg-1 text-center">
+    <strong >Admin</strong>
+    <div class="row"></div>
+<div class="col-lg-4">
+    <form id="uploadForm"
+          enctype="multipart/form-data"
+          action="/api/video"
+          method="post">
+        <input type="file" name="uploadVid" id="uploadVid" style=" width:14em;border: 1px #ffffff solid;"/><br/>
+        <input type="submit" value="Upload Video" name="submit" class="btn btn-success pull-left"><br/>
+        <span id = "status" style="display: none;"></span>
+    </form>
+</div>
+    <div class="table-responsive col-lg-8">
+        <table border="1" id="videoTable" class="table table-bordered">
+            <thead>
+            <tr>
+                <td>Serial</td><td>Media Name</td><td>Link</td>
+            </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="videoModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" style="color: #00d6b2">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <video class="pull-right" style="display: none;" width="550" height="350" id="playback" controls name="playback">
+                        <source id="mp4" src="#" type="video/mp4">
+                    </video>
+                </div>
+                <div class="modal-footer">
+                    <button id="modalClose" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<!-- Footer -->
+<footer class="container-fluid bg-4 text-center">
+    <p>&copy; 2017 [Beam Stream]</p>
+</footer>
+
+</body>
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/jquery.form.min.js"></script>
+<script>
+
+
+    $('#modalClose').on('click',function(){
+        //alert();
+        $('video').trigger('pause');
+
+        $("#playback").fadeOut(1000);
+    })
+
+    $('.close').on('click',function(){
+        //alert();
+        $('video').trigger('pause');
+
+        $("#playback").fadeOut(1000);
+    })
+    function streamVideo(selectedVideo,apiLink){
+        //alert('video'+selectedVideo);
+        $('.modal-title').html('');
+        $('.modal-title').html(selectedVideo);
+        var src = apiLink;
+        $("#playback").fadeIn(1000);
+        var video = document.getElementById('playback');
+        var mp4 = document.getElementById('mp4');
+        mp4.src = apiLink;
+
+        video.load();
+        video.play();
+
+    }
+
+    $(document).ready(function() {
+        fetchVideos();
+        function fetchVideos(){
+            $.get('/api/videos', function (data) {
+                //console.log("data" + JSON.stringify(data));
+                var htmlContent='';
+                //alert('URL '+data[0].link);
+                $.each(data,function(index, value){
+                    htmlContent+= "<tr>"
+                    htmlContent += "<td>"+value.serial+"</td><td>"+value.name+"</td><td><button data-backdrop=static data-keyboard=false data-toggle=modal data-target=#videoModal class='btn btn-success'  onclick=streamVideo('"+value.name+"','"+value.link+"')>Watch</button></td>";
+                    htmlContent+= "</tr>";
+                });
+                $('#videoTable tbody').html('');
+                $('#videoTable tbody').html(htmlContent);
+            });
+        }
+
+        $('#uploadForm').submit(function() {
+            var fileName=$('#uploadVid').val();
+            //alert(fileName);
+            if(fileName.indexOf('.mp4') > -1 || fileName.indexOf('.MP4') > -1 ){
+                $("#status").empty().text("File is uploading...");
+                $("#status").fadeIn(1000);
+                $(this).ajaxSubmit({
+
+                    error: function(xhr) {
+                        $("#status").empty().text('Error: ' + xhr.status);
+                        $("#status").fadeOut(1000);
+                    },
+
+                    success: function(response) {
+                        console.log(response)
+                        $("#status").empty().text(response);
+                        $("#status").fadeOut(1000);
+                        fetchVideos();
+                    }
+                });
+            }
+            else{
+
+                $("#status").empty().text("Please select a valid MP4 file !");
+                $("#status").fadeIn(1000);
+                $("#status").fadeOut(1000);
+            }
+
+            return false;
+        });
+    });
+
+</script>
+</html>

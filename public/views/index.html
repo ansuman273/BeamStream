@@ -1,0 +1,94 @@
+<html>
+  <head>
+    <title>Beam Stream</title>
+  </head>
+  <body>
+      <form id="uploadForm"
+          enctype="multipart/form-data"
+          action="/api/video"
+          method="post">
+      <input type="file" name="uploadVid" id="uploadVid"/>
+      <input type="submit" value="Upload Video" name="submit">
+      <span id = "status" style="display: none;"></span>
+    </form>
+    <table border="1" id="videoTable">
+        <thead>
+           <tr>
+               <td>Serial</td><td>Video Name</td><td>Link</td>
+           </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+      <video style="display: none;" width="400" id="playback" controls name="playback">
+          <source id="mp4" src="#" type="video/mp4">
+      </video>
+  </body>
+  <script src="/static/js/jquery.min.js"></script>
+  <script src="/static/js/jquery.form.min.js"></script>
+  <script>
+      function streamVideo(selectedVideo,apiLink){
+          //alert('video'+selectedVideo);
+          var src = apiLink;
+          $("#playback").fadeIn(1000);
+          var video = document.getElementById('playback');
+          var mp4 = document.getElementById('mp4');
+          mp4.src = apiLink;
+
+          video.load();
+          video.play();
+      }
+
+      $(document).ready(function() {
+          fetchVideos();
+          function fetchVideos(){
+              $.get('/api/videos', function (data) {
+                  //console.log("data" + JSON.stringify(data));
+                  var htmlContent='';
+                  //alert('URL '+data[0].link);
+                  $.each(data,function(index, value){
+                      htmlContent+= "<tr>"
+                  htmlContent += "<td>"+value.serial+"</td><td>"+value.name+"</td><td><button  onclick=streamVideo('"+value.name+"','"+value.link+"')>Watch</button></td>";
+                      htmlContent+= "</tr>";
+                  });
+                  $('#videoTable tbody').html('');
+                  $('#videoTable tbody').html(htmlContent);
+              });
+          }
+
+         $('#uploadForm').submit(function() {
+             var fileName=$('#uploadVid').val();
+             //alert(fileName);
+             if(fileName.indexOf('.mp4') > -1 || fileName.indexOf('.MP4') > -1 ){
+                 $("#status").empty().text("File is uploading...");
+                 $("#status").fadeIn(1000);
+                 $(this).ajaxSubmit({
+
+                     error: function(xhr) {
+                         $("#status").empty().text('Error: ' + xhr.status);
+                         $("#status").fadeOut(1000);
+                     },
+
+                     success: function(response) {
+                         console.log(response)
+                         $("#status").empty().text(response);
+                         $("#status").fadeOut(1000);
+                         fetchVideos();
+                     }
+                 });
+             }
+             else{
+
+                 $("#status").empty().text("Please select a valid MP4 file !");
+                 $("#status").fadeIn(1000);
+                 $("#status").fadeOut(1000);
+             }
+
+        return false;
+        });
+    });
+
+  </script>
+</html>

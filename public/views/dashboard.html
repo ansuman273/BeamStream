@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Theme Made By www.w3schools.com - No Copyright -->
+    <title>Beam Stream</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link href="/static/css/css.css" rel="stylesheet">
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            font: 20px Montserrat, sans-serif;
+            line-height: 1.8;
+            color: #f5f6f7;
+        }
+        p {font-size: 16px;}
+        .margin {margin-bottom: 45px;}
+        .bg-1 {
+            background-color: #1abc9c; /* Green */
+            color: #ffffff;
+        }
+        .bg-2 {
+            background-color: #474e5d; /* Dark Blue */
+            color: #ffffff;
+        }
+        .bg-3 {
+            background-color: #ffffff; /* White */
+            color: #555555;
+        }
+        .bg-4 {
+            background-color: #2f2f2f; /* Black Gray */
+            color: #fff;
+        }
+        .container-fluid {
+            padding-top: 70px;
+            padding-bottom: 70px;
+        }
+        .navbar {
+            padding-top: 15px;
+            padding-bottom: 15px;
+            border: 0;
+            border-radius: 0;
+            margin-bottom: 0;
+            font-size: 12px;
+            letter-spacing: 5px;
+        }
+        .navbar-nav  li a:hover {
+            color: #1abc9c !important;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/home">Beam Stream</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/home">HOME</a></li>
+                <li><a href="/admin">ADMIN</a></li>
+                <li><a href="/about">ABOUT</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Only Container -->
+<div class="container-fluid bg-1 text-center">
+    <strong >Video Gallery</strong>
+    <div class="container" id="videoGrid">
+
+    </div>
+</div>
+<!-- Footer -->
+<footer class="container-fluid bg-4 text-center">
+    <p>&copy; 2017 [Beam Stream]</p>
+</footer>
+
+</body>
+
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/jquery.form.min.js"></script>
+<script>
+    /*function streamVideo(selectedVideo,apiLink){
+        //alert('video'+selectedVideo);
+        var src = apiLink;
+        $("#playback").fadeIn(1000);
+        var video = document.getElementById('playback');
+        var mp4 = document.getElementById('mp4');
+        mp4.src = apiLink;
+
+        video.load();
+        video.play();
+    }
+*/
+    $(document).ready(function() {
+        fetchVideos();
+        function fetchVideos(){
+            $.get('/api/videos', function (data) {
+                //console.log("data" + JSON.stringify(data));
+                var htmlContent='';
+                var vid_counter=0;
+                $.each(data,function(index, value){
+                    //console.log("index"+index);
+                    vid_counter=index+1;
+                    if(vid_counter%3 === 1){
+                        htmlContent+='<div class="row"><div>' +
+                        '<video class=col-lg-4 playback'+value.serial+' controls name=playback'+value.serial+'>' +
+                        ' <source  src="'+value.link+'" type="video/mp4"> ' +
+                        '</video>' +
+                        '</div>';
+                    }
+                    else if(vid_counter%3 === 0){
+                        htmlContent+='<div>' +
+                        '<video  class=col-lg-4 playback'+value.serial+' controls name=playback'+value.serial+'>' +
+                        ' <source  src="'+value.link+'" type="video/mp4"> ' +
+                        '</video>' +
+                        '</div></div>';
+                    }
+                    else{
+                        htmlContent+='<div>' +
+                        '<video  class=col-lg-4 playback'+value.serial+' controls name=playback'+value.serial+'>' +
+                        ' <source  src="'+value.link+'" type="video/mp4"> ' +
+                        '</video>' +
+                        '</div>';
+                    }
+
+                });
+
+                //console.log('htmlContent'+htmlContent);
+                $('#videoGrid').html(htmlContent);
+
+            });
+        }
+
+    });
+
+</script>
+</html>
